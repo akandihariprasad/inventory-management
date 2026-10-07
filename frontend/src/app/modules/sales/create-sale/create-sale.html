@@ -1,0 +1,110 @@
+<div class="create-sale-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <h2>Create New Sale</h2>
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <form [formGroup]="saleForm" (ngSubmit)="onSubmit()">
+                <!-- Customer Selection -->
+                <div class="form-section">
+                    <h3>Customer Information</h3>
+                    <div class="form-row">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Select Customer</mat-label>
+                            <mat-select formControlName="customerId">
+                                <mat-option *ngFor="let customer of customers" [value]="customer.id">
+                                    {{customer.name}} - {{customer.phone || customer.email}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>Please select a customer</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Order Items -->
+                <div class="form-section">
+                    <h3>Order Items</h3>
+                    <div class="items-container">
+                        <div *ngFor="let item of itemGroups; let i = index" class="item-row" [formGroup]="item">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Product</mat-label>
+                                <mat-select formControlName="productId">
+                                    <mat-option *ngFor="let product of products" [value]="product.id">
+                                        {{product.name}} (Stock: {{product.currentStock}})
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Quantity</mat-label>
+                                <input matInput type="number" formControlName="quantity" min="1">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Price</mat-label>
+                                <input matInput type="number" formControlName="unitPrice" readonly>
+                            </mat-form-field>
+
+                            <div class="item-total">
+                                Total: {{ (item.get('quantity')?.value || 0) * (item.get('unitPrice')?.value || 0) |
+                                currency:'INR' }}
+                            </div>
+
+                            <button mat-icon-button color="warn" type="button" (click)="removeItem(i)"
+                                *ngIf="items.length > 1">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button mat-raised-button type="button" (click)="addItem()" class="add-item-btn">
+                        <mat-icon>add</mat-icon> Add Item
+                    </button>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="form-section summary-section">
+                    <h3>Order Summary</h3>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span>{{ calculateTotal() | currency:'INR' }}</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <mat-form-field appearance="outline" class="discount-field">
+                            <mat-label>Discount</mat-label>
+                            <input matInput type="number" formControlName="discount" min="0">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="summary-row total">
+                        <span>Total Amount:</span>
+                        <span>{{ calculateFinalTotal() | currency:'INR' }}</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Payment Mode</mat-label>
+                            <mat-select formControlName="paymentMode">
+                                <mat-option *ngFor="let mode of paymentModes" [value]="mode.value">
+                                    {{mode.label}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button mat-button type="button" routerLink="/sales">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+                        <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+                        <span *ngIf="!loading">Complete Sale</span>
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

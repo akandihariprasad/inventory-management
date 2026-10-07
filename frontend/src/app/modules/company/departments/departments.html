@@ -1,0 +1,90 @@
+<div class="departments-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <h2>Departments</h2>
+            </mat-card-title>
+            <button mat-raised-button color="primary" (click)="openAddForm()">
+                <mat-icon>add</mat-icon> Add Department
+            </button>
+        </mat-card-header>
+
+        <mat-card-content>
+            <!-- Add/Edit Form -->
+            @if (showForm) {
+            <div class="form-container">
+                <h3>{{ editingDepartment ? 'Edit Department' : 'Add New Department' }}</h3>
+                <form [formGroup]="departmentForm" (ngSubmit)="onSubmit()">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Department Name</mat-label>
+                        <input matInput formControlName="name">
+                        @if (departmentForm.get('name')?.hasError('required')) {
+                        <mat-error>
+                            Department name is required
+                        </mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput rows="3" formControlName="description"></textarea>
+                    </mat-form-field>
+
+                    <div class="form-actions">
+                        <button mat-button type="button" (click)="cancelForm()">Cancel</button>
+                        <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+                            @if (loading) {
+                            <mat-spinner diameter="20"></mat-spinner>
+                            }
+                            @if (!loading) {
+                            <span>{{ editingDepartment ? 'Update' : 'Add' }}</span>
+                            }
+                        </button>
+                    </div>
+                </form>
+            </div>
+            }
+
+            <!-- Departments Table -->
+            <div class="table-container">
+                @if (loading) {
+                <mat-spinner diameter="40" class="spinner"></mat-spinner>
+                }
+
+                @if (!loading) {
+                <table mat-table [dataSource]="departments">
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Name </th>
+                        <td mat-cell *matCellDef="let dept"> {{dept.name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef> Description </th>
+                        <td mat-cell *matCellDef="let dept"> {{dept.description || '-'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="createdAt">
+                        <th mat-header-cell *matHeaderCellDef> Created Date </th>
+                        <td mat-cell *matCellDef="let dept"> {{dept.createdAt | date:'mediumDate'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Actions </th>
+                        <td mat-cell *matCellDef="let dept">
+                            <button mat-icon-button color="primary" (click)="editDepartment(dept)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn" (click)="deleteDepartment(dept)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                }
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

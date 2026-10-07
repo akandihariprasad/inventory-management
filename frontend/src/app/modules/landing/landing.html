@@ -1,0 +1,316 @@
+<div class="landing-page">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <mat-icon class="brand-icon">inventory_2</mat-icon>
+                <span class="brand-name">InventoryPro</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="nav-buttons">
+                <button mat-stroked-button class="login-btn" (click)="navigateToLogin()">Sign In</button>
+                <button mat-raised-button color="primary" class="signup-btn" (click)="navigateToRegisterOwner()">Get
+                    Started</button>
+            </div>
+            <button class="mobile-menu-btn" (click)="toggleMobileMenu()">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" [class.open]="mobileMenuOpen">
+        <a href="#features" (click)="closeMobileMenu()">Features</a>
+        <a href="#pricing" (click)="closeMobileMenu()">Pricing</a>
+        <a href="#about" (click)="closeMobileMenu()">About</a>
+        <a href="#contact" (click)="closeMobileMenu()">Contact</a>
+        <button mat-stroked-button class="mobile-login-btn" (click)="navigateToLogin()">Sign In</button>
+        <button mat-raised-button color="primary" class="mobile-signup-btn" (click)="navigateToRegisterOwner()">Get
+            Started</button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="badge">✨ Trusted by 10,000+ businesses</span>
+                    </div>
+                    <h1 class="hero-title">
+                        Inventory<br>
+                        <span class="highlight">Management</span><br>
+                        Made Simple & Powerful
+                    </h1>
+                    <p class="hero-description">
+                        Streamline your entire inventory operations, from purchase orders to sales invoices.
+                        Get real-time insights and never run out of stock again.
+                    </p>
+                    <div class="hero-buttons">
+                        <button mat-raised-button color="primary" class="hero-btn-primary"
+                            (click)="navigateToRegisterOwner()">
+                            Start Free Trial
+                            <mat-icon>arrow_forward</mat-icon>
+                        </button>
+                        <button mat-stroked-button class="hero-btn-secondary" (click)="navigateToLogin()">
+                            Watch Demo
+                            <mat-icon>play_circle</mat-icon>
+                        </button>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">99.9%</span>
+                            <span class="stat-label">Uptime</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Support</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">10K+</span>
+                            <span class="stat-label">Businesses</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="dashboard-preview">
+                        <div class="preview-placeholder">
+                            <mat-icon>dashboard</mat-icon>
+                            <p>Dashboard Preview</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Features</span>
+                <h2 class="section-title">Everything you need to manage inventory</h2>
+                <p class="section-subtitle">Powerful features to streamline your business operations</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <mat-icon>inventory_2</mat-icon>
+                    </div>
+                    <h3>Inventory Management</h3>
+                    <p>Track stock levels in real-time, set low stock alerts, and manage products effortlessly.</p>
+                    <a href="#" class="feature-link" (click)="$event.preventDefault()">Learn more →</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <mat-icon>shopping_cart</mat-icon>
+                    </div>
+                    <h3>Purchase Orders</h3>
+                    <p>Create and manage purchase orders, track deliveries, and maintain supplier relationships.</p>
+                    <a href="#" class="feature-link" (click)="$event.preventDefault()">Learn more →</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <mat-icon>receipt</mat-icon>
+                    </div>
+                    <h3>Sales & Invoicing</h3>
+                    <p>Generate professional invoices, accept payments, and track sales performance.</p>
+                    <a href="#" class="feature-link" (click)="$event.preventDefault()">Learn more →</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <mat-icon>analytics</mat-icon>
+                    </div>
+                    <h3>Reports & Analytics</h3>
+                    <p>Get actionable insights with detailed reports and real-time dashboards.</p>
+                    <a href="#" class="feature-link" (click)="$event.preventDefault()">Learn more →</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <mat-icon>groups</mat-icon>
+                    </div>
+                    <h3>Multi-User Access</h3>
+                    <p>Role-based access for owners, managers, workers, and suppliers.</p>
+                    <a href="#" class="feature-link" (click)="$event.preventDefault()">Learn more →</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <mat-icon>security</mat-icon>
+                    </div>
+                    <h3>Bank-Level Security</h3>
+                    <p>Your data is protected with enterprise-grade security and encryption.</p>
+                    <a href="#" class="feature-link" (click)="$event.preventDefault()">Learn more →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Businesses Using</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Products Managed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support Available</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime Guarantee</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roles Section -->
+    <section class="roles" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">For Every Role</span>
+                <h2 class="section-title">Designed for your entire team</h2>
+                <p class="section-subtitle">Different roles, one unified solution</p>
+            </div>
+            <div class="roles-grid">
+                <div class="role-card">
+                    <div class="role-icon">
+                        <mat-icon>business</mat-icon>
+                    </div>
+                    <h3>Company Owners</h3>
+                    <ul>
+                        <li>Complete company control</li>
+                        <li>Staff management</li>
+                        <li>Supplier connections</li>
+                        <li>Financial reports</li>
+                    </ul>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon">
+                        <mat-icon>manage_accounts</mat-icon>
+                    </div>
+                    <h3>Managers</h3>
+                    <ul>
+                        <li>Inventory oversight</li>
+                        <li>Approve deliveries</li>
+                        <li>View reports</li>
+                        <li>Stock adjustments</li>
+                    </ul>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon">
+                        <mat-icon>construction</mat-icon>
+                    </div>
+                    <h3>Workers</h3>
+                    <ul>
+                        <li>Receive goods</li>
+                        <li>Update stock</li>
+                        <li>Create sales</li>
+                        <li>View inventory</li>
+                    </ul>
+                </div>
+                <div class="role-card">
+                    <div class="role-icon">
+                        <mat-icon>local_shipping</mat-icon>
+                    </div>
+                    <h3>Suppliers</h3>
+                    <ul>
+                        <li>Manage product catalog</li>
+                        <li>View purchase requests</li>
+                        <li>Accept/reject orders</li>
+                        <li>Track shipments</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="pricing">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to streamline your inventory?</h2>
+                <p>Join thousands of businesses already using InventoryPro</p>
+                <div class="cta-buttons">
+                    <button mat-raised-button color="primary" class="cta-btn-primary"
+                        (click)="navigateToRegisterOwner()">
+                        Start Free Trial
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                    <button mat-stroked-button class="cta-btn-secondary" (click)="navigateToLogin()">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <mat-icon>inventory_2</mat-icon>
+                        <span>InventoryPro</span>
+                    </div>
+                    <p>Complete inventory management solution for modern businesses.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features" (click)="$event.preventDefault()">Features</a></li>
+                        <li><a href="#pricing" (click)="$event.preventDefault()">Pricing</a></li>
+                        <li><a href="#" (click)="$event.preventDefault()">Integrations</a></li>
+                        <li><a href="#" (click)="$event.preventDefault()">API Docs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#" (click)="$event.preventDefault()">About Us</a></li>
+                        <li><a href="#" (click)="$event.preventDefault()">Blog</a></li>
+                        <li><a href="#" (click)="$event.preventDefault()">Careers</a></li>
+                        <li><a href="#" (click)="$event.preventDefault()">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#" (click)="$event.preventDefault()">Help Center</a></li>
+                        <li><a href="#" (click)="$event.preventDefault()">Contact Us</a></li>
+                        <li><a href="#" (click)="$event.preventDefault()">Privacy Policy</a></li>
+                        <li><a href="#" (click)="$event.preventDefault()">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>Subscribe to our newsletter</h4>
+                    <p>Get the latest updates and offers</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button mat-raised-button color="primary">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 InventoryPro. All rights reserved.</p>
+                <div class="social-links">
+                    <mat-icon>facebook</mat-icon>
+                    <mat-icon>twitter</mat-icon>
+                    <mat-icon>linkedin</mat-icon>
+                    <mat-icon>instagram</mat-icon>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>

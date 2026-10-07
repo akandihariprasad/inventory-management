@@ -1,0 +1,80 @@
+<div class="supplier-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <h2>Suppliers</h2>
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <!-- Search Box -->
+            <div class="search-container" *ngIf="!loading && suppliers.length > 0">
+                <mat-form-field appearance="outline" class="search-field">
+                    <mat-label>Search Suppliers</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Search by company name or email">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </div>
+
+            <div class="table-container">
+                <mat-spinner *ngIf="loading" diameter="40" class="spinner"></mat-spinner>
+
+                <table mat-table [dataSource]="suppliers" *ngIf="!loading && suppliers.length > 0">
+                    <ng-container matColumnDef="companyName">
+                        <th mat-header-cell *matHeaderCellDef> Company Name </th>
+                        <td mat-cell *matCellDef="let supplier">
+                            <div class="supplier-name-cell">
+                                <mat-icon class="supplier-icon">local_shipping</mat-icon>
+                                {{supplier.companyName}}
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef> Email </th>
+                        <td mat-cell *matCellDef="let supplier"> {{supplier.email}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="phone">
+                        <th mat-header-cell *matHeaderCellDef> Phone </th>
+                        <td mat-cell *matCellDef="let supplier"> {{supplier.phone || '-'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef> Status </th>
+                        <td mat-cell *matCellDef="let supplier">
+                            <span class="status-badge" [class.verified]="supplier.isVerified"
+                                [class.unverified]="!supplier.isVerified">
+                                {{supplier.isVerified ? 'Verified' : 'Pending'}}
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Actions </th>
+                        <td mat-cell *matCellDef="let supplier">
+                            <button mat-raised-button color="primary"
+                                [disabled]="isCatalogLoading(supplier)"
+                                (mouseenter)="prefetchCatalog(supplier)"
+                                (focus)="prefetchCatalog(supplier)"
+                                (click)="viewCatalog(supplier)">
+                                <mat-icon>{{isCatalogLoading(supplier) ? 'hourglass_empty' : 'visibility'}}</mat-icon>
+                                {{isCatalogLoading(supplier) ? 'Loading' : 'View Catalog'}}
+                            </button>
+                            <button mat-raised-button color="accent" (click)="sendConnectionRequest(supplier.id)">
+                                <mat-icon>link</mat-icon> Connect
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="5">No suppliers found</td>
+                    </tr>
+                </table>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,85 @@
+.create-purchase-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.form-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.form-section h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.items-container {
+    margin-bottom: 15px;
+}
+
+.item-row {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.item-row mat-form-field {
+    flex: 1;
+    min-width: 200px;
+}
+
+.item-total {
+    min-width: 120px;
+    font-weight: bold;
+    color: #4caf50;
+}
+
+.add-item-btn {
+    margin-top: 10px;
+}
+
+.summary-section {
+    background: #e3f2fd;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.summary-row.total {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2e7d32;
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    padding-top: 15px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .item-row {
+        flex-direction: column;
+    }
+
+    .item-row mat-form-field {
+        width: 100%;
+    }
+}

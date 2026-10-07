@@ -1,0 +1,8 @@
+<mat-form-field appearance="outline" class="search-bar">
+    <mat-label>{{placeholder}}</mat-label>
+    <input matInput [formControl]="searchControl" type="text">
+    <button mat-icon-button matSuffix *ngIf="searchControl.value" (click)="clearSearch()">
+        <mat-icon>close</mat-icon>
+    </button>
+    <mat-icon matPrefix>search</mat-icon>
+</mat-form-field>

@@ -1,0 +1,75 @@
+<div class="purchase-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <h2>{{ getListTitle() }}</h2>
+            </mat-card-title>
+            <button mat-raised-button color="primary" routerLink="/purchase-requests/create" *ngIf="!isSupplier">
+                <mat-icon>add</mat-icon> Create Purchase Request
+            </button>
+        </mat-card-header>
+
+        <mat-card-content>
+            <mat-form-field appearance="outline" class="search-field">
+                <mat-label>Search Purchase Orders</mat-label>
+                <input matInput (keyup)="applyFilter()" [placeholder]="'Search by ID or ' + getCounterpartyLabel()"
+                    [(ngModel)]="searchText">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+
+            <div class="table-container">
+                <mat-spinner *ngIf="loading" diameter="40" class="spinner"></mat-spinner>
+
+                <table mat-table [dataSource]="dataSource" matSort *ngIf="!loading">
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> PO # </th>
+                        <td mat-cell *matCellDef="let pr"> #{{pr.id}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="counterpartyName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ getCounterpartyLabel() }} </th>
+                        <td mat-cell *matCellDef="let pr"> {{ getCounterpartyName(pr) }} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalAmount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Amount </th>
+                        <td mat-cell *matCellDef="let pr"> {{pr.totalAmount | currency:'INR'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                        <td mat-cell *matCellDef="let pr">
+                            <span class="status-badge" [class]="getStatusClass(pr.status)">
+                                {{pr.status}}
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="createdAt">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Created Date </th>
+                        <td mat-cell *matCellDef="let pr"> {{pr.createdAt | date:'medium'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Actions </th>
+                        <td mat-cell *matCellDef="let pr">
+                            <button mat-icon-button color="primary" type="button" aria-label="View purchase order details"
+                                (click)="viewDetails(pr)">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="6">No purchase requests found</td>
+                    </tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]"></mat-paginator>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

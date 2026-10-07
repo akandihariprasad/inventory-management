@@ -1,0 +1,44 @@
+ .staff-container {
+     padding: 20px;
+ }
+
+ mat-card-header {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     margin-bottom: 20px;
+ }
+
+ .table-container {
+     overflow-x: auto;
+ }
+
+ .spinner {
+     margin: 40px auto;
+ }
+
+ .role-badge {
+     background: #e3f2fd;
+     color: #1976d2;
+     padding: 4px 8px;
+     border-radius: 4px;
+     font-size: 12px;
+     font-weight: 500;
+ }
+
+ .status-badge {
+     padding: 4px 8px;
+     border-radius: 4px;
+     font-size: 12px;
+     font-weight: 500;
+ }
+
+ .status-badge.active {
+     background: #c8e6c9;
+     color: #2e7d32;
+ }
+
+ .status-badge.inactive {
+     background: #ffcdd2;
+     color: #c62828;
+ }

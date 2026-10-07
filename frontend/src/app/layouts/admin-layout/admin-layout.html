@@ -1,0 +1,436 @@
+<div class="admin-layout">
+    <mat-toolbar color="primary" class="header">
+        <button mat-icon-button (click)="toggleSidebar()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span class="app-title">Inventory Management System</span>
+        <span class="spacer"></span>
+        <div class="user-info" *ngIf="currentUser">
+            <button mat-button [matMenuTriggerFor]="userMenu" class="user-menu-btn">
+                <mat-icon>account_circle</mat-icon>
+                {{ currentUser.name }}
+                <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+            <mat-menu #userMenu="matMenu">
+                <button mat-menu-item routerLink="/profile">
+                    <mat-icon>account_circle</mat-icon>
+                    <span>My Profile</span>
+                </button>
+                <button mat-menu-item routerLink="/change-password">
+                    <mat-icon>lock</mat-icon>
+                    <span>Change Password</span>
+                </button>
+                <mat-divider></mat-divider>
+                <button mat-menu-item (click)="logout()">
+                    <mat-icon>logout</mat-icon>
+                    <span>Logout</span>
+                </button>
+            </mat-menu>
+        </div>
+        <div class="user-info" *ngIf="!currentUser">
+            <span>Guest</span>
+            <button mat-icon-button (click)="router.navigate(['/login'])">
+                <mat-icon>login</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+
+    <mat-sidenav-container>
+        <mat-sidenav #sidenav mode="side" [opened]="isSidebarOpen" class="sidebar">
+            <mat-nav-list>
+                <!-- Dashboard - Visible to all -->
+                <a mat-list-item routerLink="/dashboard" routerLinkActive="active" (click)="onNavItemClick()">
+                    <mat-icon matListItemIcon>dashboard</mat-icon>
+                    <span matListItemTitle>Dashboard</span>
+                </a>
+
+                <!-- ========== SUPPLIER MENUS ========== -->
+                <ng-container *ngIf="isSupplier">
+                    <!-- Supplier Inventory Management -->
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>inventory</mat-icon>
+                                <span>My Inventory</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/supplier/products" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>list</mat-icon>
+                            <span>My Products</span>
+                        </a>
+                        <!-- <a mat-list-item routerLink="/supplier/products/add" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>add</mat-icon>
+                            <span>Add Product</span>
+                        </a> -->
+                        <a mat-list-item routerLink="/supplier/stock-movements" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>history</mat-icon>
+                            <span>Stock Movements</span>
+                        </a>
+                    </mat-expansion-panel>
+
+                    <!-- Supplier Connections -->
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>link</mat-icon>
+                                <span>Connections</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/supplier/connections" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>list</mat-icon>
+                            <span>Connection Requests</span>
+                        </a>
+                        <a mat-list-item routerLink="/supplier/connected-companies" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>business</mat-icon>
+                            <span>My Customers</span>
+                        </a>
+                    </mat-expansion-panel>
+
+                    <!-- Purchase Requests (Incoming Orders) -->
+                    <a mat-list-item routerLink="/supplier/purchase-requests" routerLinkActive="active"
+                        (click)="onNavItemClick()">
+                        <mat-icon matListItemIcon>shopping_cart</mat-icon>
+                        <span matListItemTitle>Purchase Requests</span>
+                    </a>
+
+                    <!-- Reports for Supplier -->
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>analytics</mat-icon>
+                                <span>Reports</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/supplier/sales-report" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>bar_chart</mat-icon>
+                            <span>Sales Report</span>
+                        </a>
+                        <a mat-list-item routerLink="/supplier/inventory-report" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>inventory</mat-icon>
+                            <span>Inventory Report</span>
+                        </a>
+                    </mat-expansion-panel>
+                </ng-container>
+
+                <!-- ========== OWNER/ADMIN MENUS ========== -->
+                <ng-container *ngIf="isOwner || isAdmin">
+                    <!-- Company Management -->
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>business</mat-icon>
+                                <span>Company</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/company/profile" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>info</mat-icon>
+                            <span>Company Profile</span>
+                        </a>
+                        <a mat-list-item routerLink="/company/departments" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>account_tree</mat-icon>
+                            <span>Departments</span>
+                        </a>
+                    </mat-expansion-panel>
+
+                    <!-- Staff Management -->
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>people</mat-icon>
+                                <span>Staff</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/staff" routerLinkActive="active" (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>list</mat-icon>
+                            <span>Staff List</span>
+                        </a>
+                        <!-- <a mat-list-item routerLink="/staff/invite" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>person_add</mat-icon>
+                            <span>Invite Staff</span>
+                        </a> -->
+                    </mat-expansion-panel>
+
+                    <!-- Suppliers (View all) -->
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>local_shipping</mat-icon>
+                                <span>Suppliers</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/suppliers" routerLinkActive="active" (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>list</mat-icon>
+                            <span>All Suppliers</span>
+                        </a>
+                    </mat-expansion-panel>
+
+                    <!-- Purchase Management -->
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>shopping_cart</mat-icon>
+                                <span>Purchase</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/purchase-requests" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>list</mat-icon>
+                            <span>Purchase Orders</span>
+                        </a>
+                        <!-- <a mat-list-item routerLink="/purchase-requests/create" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>add</mat-icon>
+                            <span>Create Purchase</span>
+                        </a> -->
+                    </mat-expansion-panel>
+
+                    <!-- Company Inventory -->
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>inventory</mat-icon>
+                                <span>Inventory</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/inventory" routerLinkActive="active" (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>list</mat-icon>
+                            <span>Products</span>
+                        </a>
+                        <!-- <a mat-list-item routerLink="/inventory/add" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>add</mat-icon>
+                            <span>Add Product</span>
+                        </a> -->
+                        <a mat-list-item routerLink="/inventory/movements" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>history</mat-icon>
+                            <span>Stock Movements</span>
+                        </a>
+                    </mat-expansion-panel>
+
+                    <!-- Sales Management -->
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>point_of_sale</mat-icon>
+                                <span>Sales</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/sales" routerLinkActive="active" (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>list</mat-icon>
+                            <span>Sales Orders</span>
+                        </a>
+                        <a mat-list-item routerLink="/sales/customers" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>people</mat-icon>
+                            <span>Customers</span>
+                        </a>
+                        <!-- <a mat-list-item routerLink="/sales/create" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>add</mat-icon>
+                            <span>New Sale</span>
+                        </a> -->
+                    </mat-expansion-panel>
+
+                    <!-- Reports -->
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>analytics</mat-icon>
+                                <span>Reports</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/reports/dashboard" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>dashboard</mat-icon>
+                            <span>Dashboard Report</span>
+                        </a>
+                        <a mat-list-item routerLink="/reports/inventory" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>inventory</mat-icon>
+                            <span>Inventory Report</span>
+                        </a>
+                        <a mat-list-item routerLink="/reports/sales" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>bar_chart</mat-icon>
+                            <span>Sales Report</span>
+                        </a>
+                    </mat-expansion-panel>
+                </ng-container>
+
+                <!-- ========== MANAGER MENUS ========== -->
+                <ng-container *ngIf="isManager">
+                    <!-- Suppliers (View only) -->
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>local_shipping</mat-icon>
+                                <span>Suppliers</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/suppliers" routerLinkActive="active" (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>list</mat-icon>
+                            <span>All Suppliers</span>
+                        </a>
+                    </mat-expansion-panel>
+
+                    <!-- Inventory -->
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>inventory</mat-icon>
+                                <span>Inventory</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/inventory" routerLinkActive="active" (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>list</mat-icon>
+                            <span>Products</span>
+                        </a>
+                        <!-- <a mat-list-item routerLink="/inventory/add" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>add</mat-icon>
+                            <span>Add Product</span>
+                        </a> -->
+                        <a mat-list-item routerLink="/inventory/movements" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>history</mat-icon>
+                            <span>Stock Movements</span>
+                        </a>
+                    </mat-expansion-panel>
+
+                    <!-- Sales -->
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>point_of_sale</mat-icon>
+                                <span>Sales</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/sales" routerLinkActive="active" (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>list</mat-icon>
+                            <span>Sales Orders</span>
+                        </a>
+                        <a mat-list-item routerLink="/sales/customers" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>people</mat-icon>
+                            <span>Customers</span>
+                        </a>
+                        <!-- <a mat-list-item routerLink="/sales/create" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>add</mat-icon>
+                            <span>New Sale</span>
+                        </a> -->
+                    </mat-expansion-panel>
+
+                    <!-- Reports -->
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>analytics</mat-icon>
+                                <span>Reports</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/reports/dashboard" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>dashboard</mat-icon>
+                            <span>Dashboard Report</span>
+                        </a>
+                        <a mat-list-item routerLink="/reports/inventory" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>inventory</mat-icon>
+                            <span>Inventory Report</span>
+                        </a>
+                        <a mat-list-item routerLink="/reports/sales" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>bar_chart</mat-icon>
+                            <span>Sales Report</span>
+                        </a>
+                    </mat-expansion-panel>
+                </ng-container>
+
+                <!-- ========== WORKER MENUS ========== -->
+                <ng-container *ngIf="isWorker">
+                    <!-- Inventory View -->
+                    <a mat-list-item routerLink="/inventory" routerLinkActive="active" (click)="onNavItemClick()">
+                        <mat-icon matListItemIcon>inventory</mat-icon>
+                        <span matListItemTitle>Products</span>
+                    </a>
+
+                    <!-- Sales -->
+                    <!-- <a mat-list-item routerLink="/sales/create" routerLinkActive="active" (click)="onNavItemClick()">
+                        <mat-icon matListItemIcon>point_of_sale</mat-icon>
+                        <span matListItemTitle>New Sale</span>
+                    </a> -->
+
+                    <!-- Stock Movements -->
+                    <a mat-list-item routerLink="/inventory/movements" routerLinkActive="active"
+                        (click)="onNavItemClick()">
+                        <mat-icon matListItemIcon>history</mat-icon>
+                        <span matListItemTitle>Stock Movements</span>
+                    </a>
+                </ng-container>
+
+                <!-- ========== SUPER ADMIN ONLY ========== -->
+                <ng-container *ngIf="isSuperAdmin">
+                    <mat-expansion-panel class="nav-panel">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon>admin_panel_settings</mat-icon>
+                                <span>Admin</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <a mat-list-item routerLink="/admin/supplier-approval" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>verified_user</mat-icon>
+                            <span>Supplier Approval</span>
+                        </a>
+                        <a mat-list-item routerLink="/admin/companies" routerLinkActive="active"
+                            (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>business</mat-icon>
+                            <span>All Companies</span>
+                        </a>
+                        <a mat-list-item routerLink="/admin/users" routerLinkActive="active" (click)="onNavItemClick()">
+                            <mat-icon matListItemIcon>people</mat-icon>
+                            <span>All Users</span>
+                        </a>
+                    </mat-expansion-panel>
+                </ng-container>
+
+                <!-- ========== COMMON MENUS (Profile & Settings) ========== -->
+                <mat-expansion-panel class="nav-panel">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon>settings</mat-icon>
+                            <span>Settings</span>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item routerLink="/profile" routerLinkActive="active" (click)="onNavItemClick()">
+                        <mat-icon matListItemIcon>account_circle</mat-icon>
+                        <span>My Profile</span>
+                    </a>
+                    <a mat-list-item routerLink="/change-password" routerLinkActive="active" (click)="onNavItemClick()">
+                        <mat-icon matListItemIcon>lock</mat-icon>
+                        <span>Change Password</span>
+                    </a>
+                </mat-expansion-panel>
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+            <div class="content">
+                <router-outlet></router-outlet>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+    <app-chatbot></app-chatbot>
+</div>

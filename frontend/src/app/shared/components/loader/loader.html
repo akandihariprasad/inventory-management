@@ -1,0 +1,6 @@
+<div *ngIf="loading" class="loader-overlay" [class.fullscreen]="fullScreen">
+    <div class="loader-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p class="loader-message">{{message}}</p>
+    </div>
+</div>

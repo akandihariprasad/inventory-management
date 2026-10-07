@@ -1,0 +1,42 @@
+<div class="customers-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <h2>My Customers</h2>
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="table-container">
+                <mat-spinner *ngIf="loading" diameter="40" class="spinner"></mat-spinner>
+
+                <table *ngIf="!loading && customers.length > 0">
+                    <thead>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Connected Since</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let customer of customers">
+                            <td><strong>{{getCompanyName(customer)}}</strong></td>
+                            <td>{{getEmail(customer)}}</td>
+                            <td>{{getPhone(customer)}}</td>
+                            <td>{{getConnectedDate(customer) | date:'mediumDate'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div *ngIf="!loading && customers.length === 0" class="no-data">
+                    <mat-icon>business</mat-icon>
+                    <p>No customers connected yet</p>
+                    <button mat-raised-button color="primary" routerLink="/supplier/connections">
+                        View Connection Requests
+                    </button>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

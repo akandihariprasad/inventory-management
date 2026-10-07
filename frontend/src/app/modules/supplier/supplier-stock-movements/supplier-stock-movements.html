@@ -1,0 +1,46 @@
+<div class="movements-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <h2>Stock Movements</h2>
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="table-container">
+                <mat-spinner *ngIf="loading" diameter="40" class="spinner"></mat-spinner>
+
+                <table *ngIf="!loading && movements.length > 0">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Type</th>
+                            <th>Quantity</th>
+                            <th>Date</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let movement of movements">
+                            <td>{{getProductName(movement)}}</td>
+                            <td>
+                                <span class="type-badge" [class.stock-in]="getMovementType(movement) === 'STOCK_IN'"
+                                    [class.stock-out]="getMovementType(movement) === 'STOCK_OUT'">
+                                    {{getMovementType(movement) === 'STOCK_IN' ? 'Stock In' : 'Stock Out'}}
+                                </span>
+                            </td>
+                            <td>{{movement.quantity}}</td>
+                            <td>{{getMovementDate(movement) | date:'medium'}}</td>
+                            <td>{{movement.notes || '-'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div *ngIf="!loading && movements.length === 0" class="no-data">
+                    <mat-icon>history</mat-icon>
+                    <p>No stock movements found</p>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

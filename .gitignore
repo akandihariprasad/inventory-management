@@ -1,0 +1,27 @@
+.DS_Store
+*.log
+
+# Java / Spring Boot
+backend/target/
+backend/logs/
+backend/uploads/
+
+# Node / Angular
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+.factorypath
+
+# Secrets and local environment overrides
+.env
+.env.*
+!.env.example
+application-secret.yml

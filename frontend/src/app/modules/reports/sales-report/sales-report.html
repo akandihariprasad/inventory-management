@@ -1,0 +1,63 @@
+<div class="report-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <h2>Sales Report</h2>
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <form [formGroup]="filterForm" class="filter-form">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Start Date</mat-label>
+                        <input matInput type="date" formControlName="startDate">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>End Date</mat-label>
+                        <input matInput type="date" formControlName="endDate">
+                    </mat-form-field>
+
+                    <button mat-raised-button color="primary" type="button" (click)="loadReport()">
+                        Generate Report
+                    </button>
+                    <button mat-raised-button type="button" (click)="exportToCSV()">
+                        Export to CSV
+                    </button>
+                </form>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <mat-spinner *ngIf="loading" diameter="40" class="spinner"></mat-spinner>
+
+                <table mat-table [dataSource]="salesData" *ngIf="!loading">
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> Date </th>
+                        <td mat-cell *matCellDef="let item"> {{item.date}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalOrders">
+                        <th mat-header-cell *matHeaderCellDef> Orders </th>
+                        <td mat-cell *matCellDef="let item"> {{item.totalOrders}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalRevenue">
+                        <th mat-header-cell *matHeaderCellDef> Revenue </th>
+                        <td mat-cell *matCellDef="let item"> {{item.totalRevenue | currency:'INR'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="totalItemsSold">
+                        <th mat-header-cell *matHeaderCellDef> Items Sold </th>
+                        <td mat-cell *matCellDef="let item"> {{item.totalItemsSold}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

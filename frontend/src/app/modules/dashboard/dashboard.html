@@ -1,0 +1,202 @@
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Dashboard</h1>
+        <p>Welcome back, {{ currentUser?.name || 'Guest' }}!</p>
+        <p *ngIf="isSupplier" class="role-badge supplier-badge">
+            <mat-icon>storefront</mat-icon> Supplier Portal
+        </p>
+    </div>
+
+    <!-- Supplier Dashboard -->
+    <div *ngIf="isSupplier" class="supplier-dashboard">
+        <div class="summary-cards">
+            <mat-card class="summary-card">
+                <mat-card-content>
+                    <div class="card-icon inventory">
+                        <mat-icon>inventory_2</mat-icon>
+                    </div>
+                    <div class="card-value">{{ dashboardData?.totalProducts || 0 }}</div>
+                    <div class="card-label">My Products</div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="summary-card" *ngIf="dashboardData?.lowStockCount && dashboardData.lowStockCount > 0">
+                <mat-card-content>
+                    <div class="card-icon low-stock">
+                        <mat-icon>warning</mat-icon>
+                    </div>
+                    <div class="card-value">{{ dashboardData?.lowStockCount || 0 }}</div>
+                    <div class="card-label">Low Stock Alerts</div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="summary-card">
+                <mat-card-content>
+                    <div class="card-icon orders">
+                        <mat-icon>shopping_cart</mat-icon>
+                    </div>
+                    <div class="card-value">{{ dashboardData?.pendingPurchaseOrders || 0 }}</div>
+                    <div class="card-label">Pending Orders</div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="summary-card">
+                <mat-card-content>
+                    <div class="card-icon revenue">
+                        <mat-icon>attach_money</mat-icon>
+                    </div>
+                    <div class="card-value">{{ (dashboardData?.todaySalesRevenue || 0) | currency:'INR':'symbol':'1.0-0'
+                        }}
+                    </div>
+                    <div class="card-label">Total Revenue</div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div class="supplier-actions">
+            <button mat-raised-button color="primary" routerLink="/supplier/products">
+                <mat-icon>inventory_2</mat-icon> Manage Products
+            </button>
+            <button mat-raised-button color="accent" routerLink="/supplier/purchase-requests">
+                <mat-icon>shopping_cart</mat-icon> View Orders
+            </button>
+            <button mat-raised-button color="primary" routerLink="/supplier/connections">
+                <mat-icon>link</mat-icon> Connections
+            </button>
+        </div>
+
+        <!-- Recent Products Table -->
+        <mat-card class="recent-card" *ngIf="supplierProducts.length > 0">
+            <mat-card-header>
+                <mat-card-title>My Products</mat-card-title>
+                <button mat-button color="primary" routerLink="/supplier/products">View All</button>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of supplierProducts.slice(0, 5)">
+                                <td>{{product.name}}</td>
+                                <td>{{product.category || '-'}}</td>
+                                <td>{{product.unitPrice | currency:'INR'}}</td>
+                                <td>
+                                    <span class="stock-badge" [class.low-stock]="product.availableQty < 10">
+                                        {{product.availableQty}} {{product.unit}}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <!-- Company Dashboard -->
+    <div *ngIf="!isSupplier">
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <mat-card class="summary-card">
+                <mat-card-content>
+                    <div class="card-icon inventory">
+                        <mat-icon aria-label="Inventory">inventory_2</mat-icon>
+                    </div>
+                    <div class="card-value">{{ dashboardData?.totalProducts || 0 }}</div>
+                    <div class="card-label">Total Products</div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="summary-card" *ngIf="dashboardData?.lowStockCount && dashboardData.lowStockCount > 0">
+                <mat-card-content>
+                    <div class="card-icon low-stock">
+                        <mat-icon aria-label="Low Stock">warning</mat-icon>
+                    </div>
+                    <div class="card-value">{{ dashboardData?.lowStockCount || 0 }}</div>
+                    <div class="card-label">Low Stock Alerts</div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="summary-card">
+                <mat-card-content>
+                    <div class="card-icon orders">
+                        <mat-icon aria-label="Pending Orders">shopping_cart</mat-icon>
+                    </div>
+                    <div class="card-value">{{ dashboardData?.pendingPurchaseOrders || 0 }}</div>
+                    <div class="card-label">Pending Orders</div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="summary-card">
+                <mat-card-content>
+                    <div class="card-icon sales">
+                        <mat-icon aria-label="Today's Sales">point_of_sale</mat-icon>
+                    </div>
+                    <div class="card-value">{{ dashboardData?.todaySalesCount || 0 }}</div>
+                    <div class="card-label">Today's Sales</div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="summary-card">
+                <mat-card-content>
+                    <div class="card-icon revenue">
+                        <mat-icon aria-label="Revenue">attach_money</mat-icon>
+                    </div>
+                    <div class="card-value">{{ (dashboardData?.todaySalesRevenue || 0) | currency:'INR':'symbol':'1.0-0'
+                        }}
+                    </div>
+                    <div class="card-label">Today's Revenue</div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="summary-card">
+                <mat-card-content>
+                    <div class="card-icon customers">
+                        <mat-icon aria-label="Customers">people</mat-icon>
+                    </div>
+                    <div class="card-value">{{ dashboardData?.totalCustomers || 0 }}</div>
+                    <div class="card-label">Total Customers</div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section" *ngIf="salesData && salesData.length > 0">
+            <div class="chart-container">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>Sales Summary (Last 7 Days)</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <canvas baseChart [data]="salesChartData" [options]="chartOptions" [type]="'line'">
+                        </canvas>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div class="chart-container" *ngIf="topProducts && topProducts.length > 0">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>Top Selling Products</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <canvas baseChart [data]="topProductsChartData" [options]="barChartOptions" [type]="'bar'">
+                        </canvas>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-container" *ngIf="loading">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+</div>

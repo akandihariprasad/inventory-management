@@ -1,0 +1,56 @@
+<div class="report-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <h2>Sales Report</h2>
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="summary-value">{{totalOrders}}</div>
+                    <div class="summary-label">Total Orders</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value">{{totalRevenue | currency:'INR'}}</div>
+                    <div class="summary-label">Total Revenue</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <mat-spinner *ngIf="loading" diameter="40" class="spinner"></mat-spinner>
+
+                <table *ngIf="!loading && orders.length > 0">
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Company</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let order of orders">
+                            <td>#{{order.id}}</td>
+                            <td>{{getCompanyName(order)}}</td>
+                            <td>{{getTotalAmount(order) | currency:'INR'}}</td>
+                            <td>
+                                <span class="status-badge" [class]="getStatusClass(order.status)">
+                                    {{order.status}}
+                                </span>
+                            </td>
+                            <td>{{getOrderDate(order) | date:'mediumDate'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div *ngIf="!loading && orders.length === 0" class="no-data">
+                    <mat-icon>bar_chart</mat-icon>
+                    <p>No sales data available</p>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

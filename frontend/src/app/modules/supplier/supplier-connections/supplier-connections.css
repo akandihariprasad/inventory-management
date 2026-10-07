@@ -1,0 +1,37 @@
+ .connections-container {
+     padding: 20px;
+ }
+
+ .table-container {
+     overflow-x: auto;
+ }
+
+ .spinner {
+     margin: 40px auto;
+ }
+
+ .status-badge {
+     padding: 4px 8px;
+     border-radius: 4px;
+     font-size: 12px;
+     font-weight: 500;
+ }
+
+ .status-pending {
+     background: #fff3e0;
+     color: #e65100;
+ }
+
+ .status-accepted {
+     background: #c8e6c9;
+     color: #2e7d32;
+ }
+
+ .status-rejected {
+     background: #ffcdd2;
+     color: #c62828;
+ }
+
+ button {
+     margin-right: 8px;
+ }

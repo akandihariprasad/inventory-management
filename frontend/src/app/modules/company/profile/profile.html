@@ -1,0 +1,79 @@
+<div class="profile-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <h2>Company Profile</h2>
+            </mat-card-title>
+            <div class="header-actions" *ngIf="!isEditMode && !loading">
+                <button mat-raised-button color="primary" (click)="enableEdit()">
+                    <mat-icon>edit</mat-icon> Edit
+                </button>
+            </div>
+            <div class="header-actions" *ngIf="isEditMode && !loading">
+                <button mat-raised-button color="warn" (click)="cancelEdit()">
+                    Cancel
+                </button>
+            </div>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="loading-state" *ngIf="loading">
+                <mat-spinner diameter="40"></mat-spinner>
+            </div>
+
+            <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+                <div class="form-grid">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Company Name</mat-label>
+                        <input matInput formControlName="name">
+                        <mat-error *ngIf="profileForm.get('name')?.hasError('required')">
+                            Company name is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput type="email" formControlName="email">
+                        <mat-error *ngIf="profileForm.get('email')?.hasError('required')">
+                            Email is required
+                        </mat-error>
+                        <mat-error *ngIf="profileForm.get('email')?.hasError('email')">
+                            Invalid email format
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Phone</mat-label>
+                        <input matInput formControlName="phone">
+                        <mat-error *ngIf="profileForm.get('phone')?.hasError('pattern')">
+                            Phone must be 10 digits
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>GST Number</mat-label>
+                        <input matInput formControlName="gstNumber">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Address</mat-label>
+                        <textarea matInput rows="3" formControlName="address"></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Logo URL</mat-label>
+                        <input matInput formControlName="logoUrl">
+                    </mat-form-field>
+                </div>
+
+                <div class="form-actions" *ngIf="isEditMode">
+                    <button mat-button type="button" (click)="cancelEdit()">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="profileForm.invalid || loading">
+                        <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+                        <span *ngIf="!loading">Save</span>
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

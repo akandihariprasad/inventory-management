@@ -1,0 +1,89 @@
+<div class="invoice-container" *ngIf="!loading">
+    <div class="invoice-actions no-print">
+        <button mat-raised-button (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon> Back
+        </button>
+        <button mat-raised-button color="primary" (click)="printInvoice()">
+            <mat-icon>print</mat-icon> Print Invoice
+        </button>
+    </div>
+
+    <div class="invoice" *ngIf="order">
+        <div class="invoice-header">
+            <div class="company-info">
+                <h2>INVENTORY MANAGEMENT SYSTEM</h2>
+                <p>123 Business Street, Bangalore - 560001</p>
+                <p>GST: 29AAACA1234B1Z | Phone: +91 9876543210</p>
+            </div>
+            <div class="invoice-title">
+                <h1>TAX INVOICE</h1>
+            </div>
+        </div>
+
+        <div class="invoice-details">
+            <div class="bill-to">
+                <h3>Bill To:</h3>
+                <p><strong>{{order.customerName}}</strong></p>
+                <p *ngIf="order.customerEmail">{{order.customerEmail}}</p>
+                <p *ngIf="order.customerPhone">{{order.customerPhone}}</p>
+                <p *ngIf="order.customerAddress">{{order.customerAddress}}</p>
+            </div>
+            <div class="invoice-info">
+                <p><strong>Invoice No:</strong> INV-{{order.id}}</p>
+                <p><strong>Date:</strong> {{order.createdAt | date:'medium'}}</p>
+                <p><strong>Payment Mode:</strong> {{order.paymentMode}}</p>
+                <p><strong>Status:</strong> <span class="status-badge status-completed">{{order.status}}</span></p>
+            </div>
+        </div>
+
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>Sl No.</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Unit Price (₹)</th>
+                    <th>Total (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of order.items; let i = index">
+                    <td>{{i + 1}}</td>
+                    <td>{{item.productName}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.unitPrice | number:'1.2-2'}}</td>
+                    <td>{{(item.quantity * item.unitPrice) | number:'1.2-2'}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-right"><strong>Subtotal:</strong></td>
+                    <td><strong>{{order.totalAmount | currency:'INR'}}</strong></td>
+                </tr>
+                <tr *ngIf="order.discount > 0">
+                    <td colspan="4" class="text-right"><strong>Discount:</strong></td>
+                    <td><strong>- {{order.discount | currency:'INR'}}</strong></td>
+                </tr>
+                <tr class="total-row">
+                    <td colspan="4" class="text-right"><strong>Total Amount:</strong></td>
+                    <td><strong>{{order.finalAmount | currency:'INR'}}</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="invoice-footer">
+            <div class="terms">
+                <p><strong>Terms & Conditions:</strong></p>
+                <p>1. Goods once sold cannot be returned or exchanged.</p>
+                <p>2. This is a computer generated invoice.</p>
+            </div>
+            <div class="signature">
+                <p>Authorized Signatory</p>
+                <div class="signature-line"></div>
+                <p>(For Inventory Management System)</p>
+            </div>
+        </div>
+    </div>
+
+    <mat-spinner *ngIf="loading" diameter="40" class="spinner"></mat-spinner>
+</div>

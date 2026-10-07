@@ -1,0 +1,93 @@
+<div class="movements-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <h2>Stock Movements History</h2>
+            </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <form [formGroup]="filterForm" class="filter-form">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Movement Type</mat-label>
+                        <mat-select formControlName="type" (selectionChange)="applyFilter()">
+                            <mat-option value="">All</mat-option>
+                            <mat-option *ngFor="let type of movementTypes" [value]="type.value">
+                                {{type.label}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Start Date</mat-label>
+                        <input matInput type="date" formControlName="startDate" (change)="applyFilter()">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>End Date</mat-label>
+                        <input matInput type="date" formControlName="endDate" (change)="applyFilter()">
+                    </mat-form-field>
+
+                    <button mat-raised-button (click)="resetFilter()">Reset</button>
+                </form>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <mat-spinner *ngIf="loading" diameter="40" class="spinner"></mat-spinner>
+
+                <table mat-table [dataSource]="dataSource" matSort *ngIf="!loading">
+                    <ng-container matColumnDef="productName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Product </th>
+                        <td mat-cell *matCellDef="let movement"> {{movement.productName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="type">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                        <td mat-cell *matCellDef="let movement">
+                            <span class="type-badge" [class]="getTypeClass(movement.type)">
+                                {{movement.type}}
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="quantity">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </th>
+                        <td mat-cell *matCellDef="let movement"> {{movement.quantity}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="referenceType">
+                        <th mat-header-cell *matHeaderCellDef> Reference </th>
+                        <td mat-cell *matCellDef="let movement"> {{movement.referenceType || '-'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="notes">
+                        <th mat-header-cell *matHeaderCellDef> Notes </th>
+                        <td mat-cell *matCellDef="let movement"> {{movement.notes || '-'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="performedByName">
+                        <th mat-header-cell *matHeaderCellDef> Performed By </th>
+                        <td mat-cell *matCellDef="let movement"> {{movement.performedByName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="createdAt">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                        <td mat-cell *matCellDef="let movement"> {{movement.createdAt | date:'medium'}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="7">No stock movements found</td>
+                    </tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

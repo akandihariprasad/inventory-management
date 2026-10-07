@@ -1,0 +1,18 @@
+<div class="page-header">
+    <div class="header-left">
+        <button *ngIf="showBackButton" mat-icon-button (click)="onBackClick()" class="back-button">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div class="header-text">
+            <h1>{{title}}</h1>
+            <p *ngIf="subtitle">{{subtitle}}</p>
+        </div>
+    </div>
+
+    <div class="header-right">
+        <button *ngIf="showAddButton" mat-raised-button color="primary" (click)="onAddClick()">
+            <mat-icon>{{addButtonIcon}}</mat-icon>
+            {{addButtonText}}
+        </button>
+    </div>
+</div>

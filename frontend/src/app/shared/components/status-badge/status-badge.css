@@ -1,0 +1,65 @@
+ .status-badge {
+     display: inline-block;
+     padding: 4px 12px;
+     border-radius: 20px;
+     font-size: 12px;
+     font-weight: 500;
+     text-align: center;
+     white-space: nowrap;
+ }
+
+ .status-badge.small {
+     padding: 2px 8px;
+     font-size: 10px;
+ }
+
+ .status-badge.large {
+     padding: 8px 16px;
+     font-size: 14px;
+ }
+
+ /* Status Colors */
+ .status-pending {
+     background: #fff3e0;
+     color: #e65100;
+ }
+
+ .status-approved,
+ .status-accepted,
+ .status-active,
+ .status-completed {
+     background: #e8f5e9;
+     color: #2e7d32;
+ }
+
+ .status-dispatched {
+     background: #e3f2fd;
+     color: #1565c0;
+ }
+
+ .status-delivered {
+     background: #c8e6c9;
+     color: #1b5e20;
+ }
+
+ .status-rejected,
+ .status-cancelled,
+ .status-inactive {
+     background: #ffcdd2;
+     color: #c62828;
+ }
+
+ .status-low-stock {
+     background: #fff3e0;
+     color: #ef6c00;
+ }
+
+ .status-out-stock {
+     background: #ffcdd2;
+     color: #c62828;
+ }
+
+ .status-default {
+     background: #e0e0e0;
+     color: #616161;
+ }

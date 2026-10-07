@@ -1,0 +1,136 @@
+ /* .profile-container {
+     padding: 20px;
+     max-width: 800px;
+     margin: 0 auto;
+ }
+
+ .form-grid {
+     display: grid;
+     grid-template-columns: repeat(2, 1fr);
+     gap: 20px;
+ }
+
+ .full-width {
+     grid-column: span 2;
+ }
+
+ .form-actions {
+     margin-top: 20px;
+     text-align: right;
+ }
+
+ @media (max-width: 768px) {
+     .form-grid {
+         grid-template-columns: 1fr;
+     }
+
+     .full-width {
+         grid-column: span 1;
+     }
+ } */
+
+
+
+
+
+
+
+
+
+
+ .profile-container {
+     padding: 24px;
+     min-height: calc(100vh - 64px);
+     background-color: #f5f7fa;
+ }
+
+ mat-card {
+     border-radius: 12px;
+     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+ }
+
+ mat-card-header {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 20px 24px 0 24px;
+     flex-wrap: wrap;
+     gap: 16px;
+     border-bottom: 1px solid #e2e8f0;
+     padding-bottom: 16px;
+ }
+
+ mat-card-title h2 {
+     margin: 0;
+     font-size: 20px;
+     font-weight: 600;
+     color: #1a1a2e;
+ }
+
+ .header-actions button {
+     display: flex;
+     align-items: center;
+     gap: 8px;
+ }
+
+ .loading-state {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     padding: 60px;
+ }
+
+ .form-grid {
+     display: grid;
+     grid-template-columns: repeat(2, 1fr);
+     gap: 20px;
+     padding: 24px;
+ }
+
+ .full-width {
+     grid-column: span 2;
+ }
+
+ .form-actions {
+     display: flex;
+     justify-content: flex-end;
+     gap: 12px;
+     padding: 16px 24px 24px 24px;
+     border-top: 1px solid #e2e8f0;
+     background: #fafafa;
+ }
+
+ .form-actions button {
+     min-width: 100px;
+ }
+
+ /* Disabled form styling */
+ input:disabled,
+ textarea:disabled {
+     background-color: #fafafa;
+ }
+
+ /* Responsive */
+ @media (max-width: 768px) {
+     .profile-container {
+         padding: 16px;
+     }
+
+     .form-grid {
+         grid-template-columns: 1fr;
+         padding: 16px;
+     }
+
+     .full-width {
+         grid-column: span 1;
+     }
+
+     mat-card-header {
+         flex-direction: column;
+         align-items: flex-start;
+     }
+
+     .header-actions button {
+         width: 100%;
+     }
+ }

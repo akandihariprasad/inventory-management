@@ -1,0 +1,40 @@
+.report-container {
+    padding: 20px;
+}
+
+mat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.spinner {
+    margin: 40px auto;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-low {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.status-out {
+    background: #ffcdd2;
+    color: #c62828;
+}
+
+.status-healthy {
+    background: #c8e6c9;
+    color: #2e7d32;
+}
